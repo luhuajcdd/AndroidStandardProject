@@ -1,0 +1,11 @@
+apply plugin: 'checkstyle'
+
+task checkstyle(type: Checkstyle) {
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+    // empty classpath
+    classpath = files()
+    //Do not fail build
+    ignoreFailures = false
+}
