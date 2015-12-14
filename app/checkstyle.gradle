@@ -7,5 +7,5 @@ task checkstyle(type: Checkstyle) {
     // empty classpath
     classpath = files()
     //Do not fail build
-    ignoreFailures = false
+    ignoreFailures = true
 }

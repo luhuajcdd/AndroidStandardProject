@@ -1,0 +1,22 @@
+apply plugin: 'pmd'
+
+//task pmd(type: Pmd) {
+//    source 'src'
+//    include '**/*.java'
+//    exclude '**/gen/**'
+//    ruleSets = ["android"]
+//}
+
+task pmd(type: Pmd) {
+    ignoreFailures = true
+    source = fileTree('src')
+    //ruleSetConfig =resources.file("${project.rootDir}/config/pmd/PmdRuleSets.xml")
+    //ruleSetFiles =files("config/pmd/PmdRuleSets.xml")
+    //ruleSetFiles =files("${project.rootDir}/config/pmd/PmdRuleSets.xml")
+    ruleSets = ["java-android"]
+    reports {
+        xml {
+            destination "build/reports/pmd/pmd.xml"
+        }
+    }
+}

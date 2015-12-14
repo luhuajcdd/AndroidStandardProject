@@ -27,3 +27,6 @@ dependencies {
 }
 
 apply from: "checkstyle.gradle"
+apply from: "findbugs.gradle"
+apply from: "pmd.gradle"
+
