@@ -6,27 +6,48 @@ android {
 
     defaultConfig {
         applicationId "com.dehua.android"
-        minSdkVersion 10
+        minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        ndk{
+            moduleName "jniDemo"
+        }
     }
+
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            //jacoco 生成覆盖率文件
+            testCoverageEnabled = true
+        }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs' //this way we can find the .aar file in libs folder
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(":jnidemo")
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
+
+    //aar
+    compile(name:'util', ext:'aar')
 }
 
 apply from: "checkstyle.gradle"
 apply from: "findbugs.gradle"
 apply from: "pmd.gradle"
+apply from: 'jacoco.gradle'
 

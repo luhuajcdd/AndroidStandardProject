@@ -1,0 +1,38 @@
+apply plugin: 'jacoco'
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+jacoco{
+    toolVersion = "0.7.1.201405082137"
+}
+
+def coverageSourceDirs = [
+        '../app/src/main/java'
+]
+
+task jacocoTestReport(type: JacocoReport) {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports after running tests."
+    reports {
+        html.enabled = true
+    }
+    classDirectories = fileTree(
+            dir: './build/intermediates/classes/dev/release',
+            excludes: ['**/R*.class',
+                       '**/*$InjectAdapter.class',
+                       '**/*$ModuleAdapter.class',
+                       '**/*$ViewInjector*.class'
+            ])
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files("$buildDir/outputs/code-coverage/connected/addressbook_coverage.ec",
+            "$buildDir/outputs/code-coverage/connected/mission_coverage.ec")
+
+    doFirst {
+        new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
+            if (file.name.contains('$$')) {
+                file.renameTo(file.path.replace('$$', '$'))
+            }
+        }
+    }
+}
